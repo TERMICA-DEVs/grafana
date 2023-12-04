@@ -36,10 +36,6 @@
       padding-left: $space-md;
     }
   }
-
-  .submenu-controls {
-    display: none;
-  }
 }
 
 .view-mode--kiosk {
@@ -47,10 +43,6 @@
 
   .sidemenu,
   .page-toolbar {
-    display: none;
-  }
-
-  .submenu-controls {
     display: none;
   }
 }
