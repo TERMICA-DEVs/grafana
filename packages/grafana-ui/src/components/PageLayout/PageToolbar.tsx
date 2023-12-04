@@ -91,13 +91,11 @@ export const PageToolbar: FC<Props> = React.memo(
           <nav aria-label="Search links" className={styles.navElement}>
             {parent && parentHref && (
               <>
-                <Link
+                <span
                   aria-label={`Search dashboard in the ${parent} folder`}
                   className={cx(styles.titleText, styles.parentLink, styles.titleLink)}
-                  href={parentHref}
-                >
-                  {parent} <span className={styles.parentIcon}></span>
-                </Link>
+                ></span>
+                <div className={styles.titleText}>{parent}</div>
                 {titleHref && (
                   <span className={cx(styles.titleText, styles.titleDivider, styles.parentLink)} aria-hidden>
                     /
@@ -110,7 +108,7 @@ export const PageToolbar: FC<Props> = React.memo(
               <div className={styles.titleWrapper}>
                 {title && (
                   <h1 className={styles.h1Styles}>
-                    {titleHref ? (
+                    {titleHref && false ? (
                       <Link
                         aria-label="Search dashboard by name"
                         className={cx(styles.titleText, styles.titleLink)}

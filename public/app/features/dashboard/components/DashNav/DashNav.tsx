@@ -241,7 +241,7 @@ export const DashNav = React.memo<Props>((props) => {
     }
 
     if (kioskMode === KioskMode.TV) {
-      return [renderTimeControls(), tvButton];
+      return [renderTimeControls()];
     }
 
     if (canEdit && !isFullscreen) {

@@ -22,7 +22,7 @@ import {
 } from '../../types/events';
 import { HelpModal } from '../components/help/HelpModal';
 import { contextSrv } from '../core';
-import { exitKioskMode, toggleKioskMode } from '../navigation/kiosk';
+import { toggleKioskMode } from '../navigation/kiosk';
 
 import { toggleTheme } from './toggleTheme';
 import { withFocusedPanel } from './withFocusedPanelId';
@@ -45,11 +45,26 @@ export class KeybindingSrv {
       this.bindGlobal('esc', this.globalEsc);
     }
 
-    this.bind('t t', () => toggleTheme(false));
-    this.bind('t r', () => toggleTheme(true));
+    this.bind('t t', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
+      toggleTheme(false);
+    });
+    this.bind('t r', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
+      toggleTheme(true);
+    });
 
     if (process.env.NODE_ENV === 'development') {
-      this.bind('t n', () => this.toggleNav());
+      this.bind('t n', () => {
+        if (locationService.getSearchObject().kiosk) {
+          return;
+        }
+        this.toggleNav();
+      });
     }
   }
 
@@ -86,6 +101,9 @@ export class KeybindingSrv {
   }
 
   private openSearch() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     locationService.partial({ search: 'open' });
   }
 
@@ -94,22 +112,37 @@ export class KeybindingSrv {
   }
 
   private openAlerting() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     locationService.push('/alerting');
   }
 
   private goToHome() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     locationService.push('/');
   }
 
   private goToProfile() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     locationService.push('/profile');
   }
 
   private makeAbsoluteTime() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     appEvents.publish(new AbsoluteTimeEvent());
   }
 
   private showHelpModal() {
+    if (locationService.getSearchObject().kiosk) {
+      return;
+    }
     appEvents.publish(new ShowModalReactEvent({ component: HelpModal }));
   }
 
@@ -134,10 +167,6 @@ export class KeybindingSrv {
     if (search.viewPanel) {
       locationService.partial({ viewPanel: null, tab: null });
       return;
-    }
-
-    if (search.kiosk) {
-      exitKioskMode();
     }
 
     if (search.search) {
@@ -187,30 +216,48 @@ export class KeybindingSrv {
 
   setupTimeRangeBindings(updateUrl = true) {
     this.bind('t z', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       appEvents.publish(new ZoomOutEvent({ scale: 2, updateUrl }));
     });
 
     this.bind('ctrl+z', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       appEvents.publish(new ZoomOutEvent({ scale: 2, updateUrl }));
     });
 
     this.bind('t left', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       appEvents.publish(new ShiftTimeEvent({ direction: ShiftTimeEventDirection.Left, updateUrl }));
     });
 
     this.bind('t right', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       appEvents.publish(new ShiftTimeEvent({ direction: ShiftTimeEventDirection.Right, updateUrl }));
     });
   }
 
   setupDashboardBindings(dashboard: DashboardModel) {
     this.bind('mod+o', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       dashboard.graphTooltip = (dashboard.graphTooltip + 1) % 3;
       dashboard.events.publish(new LegacyGraphHoverClearEvent());
       dashboard.startRefresh();
     });
 
     this.bind('mod+s', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       if (dashboard.meta.canSave) {
         appEvents.publish(
           new ShowModalReactEvent({
@@ -227,6 +274,9 @@ export class KeybindingSrv {
 
     // edit panel
     this.bindWithPanelId('e', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       if (dashboard.canEditPanelById(panelId)) {
         const isEditing = locationService.getSearchObject().editPanel !== undefined;
         locationService.partial({ editPanel: isEditing ? null : panelId });
@@ -235,12 +285,18 @@ export class KeybindingSrv {
 
     // view panel
     this.bindWithPanelId('v', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       const isViewing = locationService.getSearchObject().viewPanel !== undefined;
       locationService.partial({ viewPanel: isViewing ? null : panelId });
     });
 
     //toggle legend
     this.bindWithPanelId('p l', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       const panel = dashboard.getPanelById(panelId)!;
       const newOptions = { ...panel.options };
 
@@ -250,6 +306,9 @@ export class KeybindingSrv {
     });
 
     this.bindWithPanelId('i', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       locationService.partial({ inspect: panelId });
     });
 
@@ -274,6 +333,9 @@ export class KeybindingSrv {
 
     // delete panel
     this.bindWithPanelId('p r', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       if (dashboard.canEditPanelById(panelId) && !(dashboard.panelInView || dashboard.panelInEdit)) {
         appEvents.publish(new RemovePanelEvent(panelId));
       }
@@ -281,6 +343,9 @@ export class KeybindingSrv {
 
     // duplicate panel
     this.bindWithPanelId('p d', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       if (dashboard.canEditPanelById(panelId)) {
         const panelIndex = dashboard.getPanelInfoById(panelId)!.index;
         dashboard.duplicatePanel(dashboard.panels[panelIndex]);
@@ -289,6 +354,9 @@ export class KeybindingSrv {
 
     // share panel
     this.bindWithPanelId('p s', (panelId) => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       const panelInfo = dashboard.getPanelInfoById(panelId);
 
       appEvents.publish(
@@ -306,37 +374,61 @@ export class KeybindingSrv {
 
     // toggle all panel legends
     this.bind('d l', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       dashboard.toggleLegendsForAll();
     });
 
     // collapse all rows
     this.bind('d shift+c', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       dashboard.collapseRows();
     });
 
     // expand all rows
     this.bind('d shift+e', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       dashboard.expandRows();
     });
 
     this.bind('d n', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       locationService.push('/dashboard/new');
     });
 
     this.bind('d r', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       dashboard.startRefresh();
     });
 
     this.bind('d s', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       this.showDashEditView();
     });
 
     this.bind('d k', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       toggleKioskMode();
     });
 
     //Autofit panels
     this.bind('d a', () => {
+      if (locationService.getSearchObject().kiosk) {
+        return;
+      }
       // this has to be a full page reload
       const queryParams = locationService.getSearchObject();
       const newUrlParam = queryParams.autofitpanels ? '' : '&autofitpanels';
