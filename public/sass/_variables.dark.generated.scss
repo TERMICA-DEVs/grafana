@@ -60,8 +60,8 @@ $gray-6: #f4f5f8;
 
 $white: #ffffff;
 
-$layer0: #111217;
-$layer1: #181b1f;
+$layer0: #202b33;
+$layer1: #26323a;
 $layer2: #22252b;
 
 $divider: rgba(204, 204, 220, 0.07);
@@ -96,9 +96,9 @@ $critical: #FF5286;
 
 // Scaffolding
 // -------------------------
-$body-bg: #111217;
-$page-bg: #111217;
-$dashboard-bg: #111217;
+$body-bg: #202b33;
+$page-bg: #202b33;
+$dashboard-bg: #202b33;
 
 $text-color-strong: #FFFFFF;
 $text-color: rgb(204, 204, 220);
@@ -132,16 +132,16 @@ $hr-border-color: $dark-9;
 
 // Panel
 // -------------------------
-$panel-bg: #181b1f;
+$panel-bg: #26323a;
 $panel-border: 1px solid rgba(204, 204, 220, 0.07);
 $panel-header-hover-bg: rgba(204, 204, 220, 0.16);
 $panel-box-shadow: none;
 $panel-corner: $panel-bg;
 
 // page header
-$page-header-bg: #111217;
+$page-header-bg: #202b33;
 $page-header-shadow: inset 0px -4px 14px $dark-3;
-$page-header-border-color: #111217;
+$page-header-border-color: #202b33;
 
 $divider-border-color: $gray-1;
 
@@ -174,8 +174,8 @@ $scrollbarBorder: black;
 // -------------------------
 $table-bg-accent: #22252b;
 $table-border: rgba(204, 204, 220, 0.15);
-$table-bg-odd: rgb(28, 31, 35);
-$table-bg-hover: rgb(35, 38, 42);
+$table-bg-odd: rgb(42, 54, 61);
+$table-bg-hover: rgb(48, 60, 67);
 
 // Buttons
 // -------------------------
@@ -211,7 +211,7 @@ $btn-active-box-shadow: 0px 0px 4px rgba(255, 120, 10, 0.5);
 
 // Forms
 // -------------------------
-$input-bg: #111217;
+$input-bg: #202b33;
 $input-bg-disabled: rgba(204, 204, 220, 0.04);
 
 $input-color: rgb(204, 204, 220);
@@ -233,7 +233,7 @@ $typeahead-selected-color: $yellow;
 
 // Dropdowns
 // -------------------------
-$dropdownBackground: #181b1f;
+$dropdownBackground: #26323a;
 $dropdownBorder: rgba(204, 204, 220, 0.07);
 $dropdownDividerTop: rgba(204, 204, 220, 0.07);
 $dropdownDividerBottom: rgba(204, 204, 220, 0.07);
@@ -265,7 +265,7 @@ $side-menu-header-color: rgb(204, 204, 220);
 
 // Menu dropdowns
 // -------------------------
-$menu-dropdown-bg: #181b1f;
+$menu-dropdown-bg: #26323a;
 $menu-dropdown-hover-bg: rgba(204, 204, 220, 0.16);
 $menu-dropdown-shadow: 0px 8px 24px rgb(1,4,9);
 
@@ -297,7 +297,7 @@ $tooltipArrowColor: #22252b;
 $tooltipBackgroundError: #D10E5C;
 $tooltipShadow: 0px 4px 8px rgba(24, 26, 27, 0.75);
 
-$popover-bg: #181b1f;
+$popover-bg: #26323a;
 $popover-color: rgb(204, 204, 220);
 $popover-border-color: rgba(204, 204, 220, 0.07);
 $popover-header-bg: #22252b;
