@@ -183,8 +183,6 @@ func (f *FolderServiceImpl) CreateFolder(ctx context.Context, user *models.Signe
 		}
 
 		permissions = append(permissions, []accesscontrol.SetResourcePermissionCommand{
-			{BuiltinRole: string(models.ROLE_EDITOR), Permission: models.PERMISSION_EDIT.String()},
-			{BuiltinRole: string(models.ROLE_VIEWER), Permission: models.PERMISSION_VIEW.String()},
 		}...)
 
 		_, permissionErr = f.permissions.SetPermissions(ctx, orgID, folder.Uid, permissions...)
