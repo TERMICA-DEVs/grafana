@@ -118,18 +118,6 @@ export function getPanelMenu(
     });
   }
 
-  const shareTextTranslation = t({
-    id: 'panel.header-menu.share',
-    message: `Share`,
-  });
-
-  menu.push({
-    text: shareTextTranslation,
-    iconClassName: 'share-alt',
-    onClick: onSharePanel,
-    shortcut: 'p s',
-  });
-
   if (contextSrv.hasAccessToExplore() && !(panel.plugin && panel.plugin.meta.skipDataQuery)) {
     menu.push({
       text: 'Explore',
